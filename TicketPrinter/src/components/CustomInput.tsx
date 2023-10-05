@@ -15,6 +15,7 @@ export const CustomInput = ({ placeholderText, isMarginNeeded, isSecured, onChan
   return (
     <View style={isMarginNeeded ? [styles.inputBar, styles.inputBarWithMargin] : styles.inputBar}>
       <TextInput
+        onChangeText={onChangeText}
         keyboardType={ keyType ?? 'default' }
         autoCapitalize={ isCapitalized ? 'sentences' : 'none' }
         style={styles.inputText}

@@ -5,12 +5,14 @@ import { CustomButton } from '../components/CustomButton'
 import { theme } from '../helpers/theme'
 import { WIDTH } from '../helpers/dimensions'
 import { AuthorizationStore } from '../stores/auth-store'
+import { AuthError } from '../components/AuthError'
 
 export const LoginScreen = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const { authError } = AuthorizationStore
 
-  async function handleSignIn () {
+  function handleSignIn (email: string, password: string) {
     AuthorizationStore.handleLogin(email, password)
   }
 
@@ -34,7 +36,7 @@ export const LoginScreen = () => {
         buttonStyle={styles.button}
         textStyle={styles.buttonText}
         buttonTitle='SIGN IN'
-        handlePress={handleSignIn}
+        handlePress={() => { handleSignIn(email, password) }}
         />
     </View>
   )

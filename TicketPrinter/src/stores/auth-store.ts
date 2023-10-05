@@ -1,24 +1,42 @@
 import { makeAutoObservable } from 'mobx'
 import { supabase } from '../../supabaseConfig'
+import { type Session } from '@supabase/supabase-js'
 
 class AuthStore {
   constructor () {
     makeAutoObservable(this)
   }
 
-  isUser: boolean = true
+  isUser: boolean = false
+  session: Session | null = null
+
+  authError = null
 
   setIsUser = () => {
-    this.isUser = !this.isUser
+    if (this.session) {
+      this.isUser = true
+    }
   }
 
-  * handleLogin (email: string, password: string) {
+  setAuthError = (authError) => {
+    this.authError = authError
+  }
+
+  setSession = (userSession) => {
+    this.session = userSession.session
+    this.setIsUser()
+  }
+
+  * handleLogin (userEmail: string, userPassword: string) {
     try {
-      const { error } = yield supabase.auth.signInWithPassword({
-        email,
-        password
+      let { data, error } = yield supabase.auth.signInWithPassword({
+        email: userEmail,
+        password: userPassword
       })
-      this.setIsUser()
+      this.setSession(data)
+      if (error) {
+        this.setAuthError(error)
+      }
     } catch (error) {
       console.log(error)
     }

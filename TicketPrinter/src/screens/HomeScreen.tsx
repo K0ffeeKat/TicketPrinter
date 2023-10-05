@@ -6,15 +6,18 @@ import { CustomButton } from '../components/CustomButton'
 import { WIDTH } from '../helpers/dimensions'
 import { SettingsButton } from '../components/SettingsButton'
 import { type HomeScreenNavigationProps } from '../types/AppStackNavProps'
+import { MainStore } from '../stores/main-store'
 
 export const HomeScreen = ({ navigation }: HomeScreenNavigationProps) => {
-  const [userId, setUserId] = useState('')
+  const [userId, setUserId] = useState<number | null>(null)
 
-  const handleSearch = () => {
-    // get function
-    
-    //navigate to constructor
-    navigation.navigate('ConstructorScreen')
+  const { fetchError } = MainStore
+
+  function handleSearch () {
+    MainStore.handleUserInfoRequest(userId)
+    if (fetchError !== '') {
+      navigation.navigate('ConstructorScreen')
+    }
   }
 
   return (
