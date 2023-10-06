@@ -7,27 +7,28 @@ class Store {
   }
 
   userInfo = []
-  fetchError = ''
+  fetchingError = ''
 
   setUserInfo = (instance: any) => {
     this.userInfo = instance
   }
 
-  setFetchError = (message: string) => {
-    this.fetchError = message
+  setFetchingError = (message: string) => {
+    this.fetchingError = message
   }
 
-  * handleUserInfoRequest (id: number | null) {
+  async handleUserInfoRequest (id: number | null) {
     try {
-      const { data } = yield supabase
+      this.setUserInfo([])
+      this.setFetchingError('')
+      const { data, error } = await supabase
         .from('user_info')
         .select('*')
         .eq('id', id)
-      if (data.length > 0) {
-        this.setUserInfo(data)
-        this.setFetchError('')
-      } else {
-        this.setFetchError('Wrong ID, please try again')
+      this.setUserInfo(data)
+      console.log('userinfo: ', this.userInfo)
+      if (data.length === 0) {
+        this.setFetchingError('No user found, please try again')
       }
     } catch (error) {
       console.log(error)

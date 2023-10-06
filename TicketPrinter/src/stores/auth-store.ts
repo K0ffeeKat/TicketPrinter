@@ -15,6 +15,8 @@ class AuthStore {
   setIsUser = () => {
     if (this.session) {
       this.isUser = true
+    } else {
+      this.isUser = false
     }
   }
 
@@ -23,7 +25,7 @@ class AuthStore {
   }
 
   setSession = (userSession) => {
-    this.session = userSession.session
+    this.session = userSession
     this.setIsUser()
   }
 
@@ -39,6 +41,18 @@ class AuthStore {
       }
     } catch (error) {
       console.log(error)
+    }
+  }
+
+  * handleSignOut () {
+    try {
+      const { error } = yield supabase.auth.signOut()
+      if (error) {
+        this.setAuthError(error)
+      }
+      this.setSession(null)
+    } catch (error) {
+      console.log('log out error: ', error)
     }
   }
 }

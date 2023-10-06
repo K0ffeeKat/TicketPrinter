@@ -4,11 +4,15 @@ import { type ConstructorScreenNavigationProps } from '../types/AppStackNavProps
 import { theme } from '../helpers/theme'
 import { LeftArrowButton } from '../components/LeftArrowButton'
 import { observer } from 'mobx-react'
+import { BadgePreview } from '../components/BadgePreview'
+import { MainStore } from '../stores/main-store'
 
 export const ConstructorScreen = observer(({ navigation }: ConstructorScreenNavigationProps) => {
   const handleLeftArrowPress = () => {
     navigation.goBack()
   }
+
+  const { userInfo } = MainStore
 
   return (
     <View style={styles.mainContainer}>
@@ -16,6 +20,9 @@ export const ConstructorScreen = observer(({ navigation }: ConstructorScreenNavi
         <LeftArrowButton
           handlePress={handleLeftArrowPress}
           />
+      </View>
+      <View style={styles.badgeContainer}>
+        <BadgePreview userInfo={userInfo}/>
       </View>
     </View>
   )
@@ -30,5 +37,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 20,
     top: 20
+  },
+  badgeContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 })

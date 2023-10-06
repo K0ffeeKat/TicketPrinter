@@ -2,9 +2,15 @@ import { StyleSheet, View, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import iconSettings from '../assets/icons/icon_settings.png'
 
-export const SettingsButton = () => {
+interface Props {
+  handlePress: () => void
+}
+
+export const SettingsButton = ({ handlePress }: Props) => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity
+      onPress={handlePress}
+      >
       <Image
         source={iconSettings}
         tintColor={'#82EAF3'}

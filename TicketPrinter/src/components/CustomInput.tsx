@@ -7,7 +7,7 @@ interface Props {
   placeholderText: string
   isMarginNeeded: boolean
   isSecured?: boolean
-  onChangeText: (text: string) => void
+  onChangeText: (text: string | number) => void
   keyType?: string
 }
 

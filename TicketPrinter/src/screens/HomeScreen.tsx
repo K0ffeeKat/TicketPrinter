@@ -7,23 +7,28 @@ import { WIDTH } from '../helpers/dimensions'
 import { SettingsButton } from '../components/SettingsButton'
 import { type HomeScreenNavigationProps } from '../types/AppStackNavProps'
 import { MainStore } from '../stores/main-store'
+import { observer } from 'mobx-react'
 
-export const HomeScreen = ({ navigation }: HomeScreenNavigationProps) => {
+export const HomeScreen = observer(({ navigation }: HomeScreenNavigationProps) => {
   const [userId, setUserId] = useState<number | null>(null)
 
-  const { fetchError } = MainStore
-
-  function handleSearch () {
-    MainStore.handleUserInfoRequest(userId)
-    if (fetchError !== '') {
+  async function handleSearch () {
+    await MainStore.handleUserInfoRequest(userId)
+    if (MainStore.userInfo.length > 0 && MainStore.fetchingError === '') {
       navigation.navigate('ConstructorScreen')
     }
+  }
+
+  const handleSettingsPress = () => {
+    navigation.navigate('SettingsScreen')
   }
 
   return (
     <View style={styles.mainContainer}>
       <View style={styles.settingsButtonContainer}>
-        <SettingsButton />
+        <SettingsButton
+          handlePress={handleSettingsPress}
+          />
       </View>
       <CustomInput
         isCapitalized={false}
@@ -40,7 +45,7 @@ export const HomeScreen = ({ navigation }: HomeScreenNavigationProps) => {
         />
     </View>
   )
-}
+})
 
 const styles = StyleSheet.create({
   mainContainer: {
