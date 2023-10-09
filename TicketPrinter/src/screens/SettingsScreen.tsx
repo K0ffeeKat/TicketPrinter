@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import React from 'react'
 import { LeftArrowButton } from '../components/LeftArrowButton'
 import { type SettingsScreenNavigationProps } from '../types/AppStackNavProps'
@@ -6,8 +6,20 @@ import { theme } from '../helpers/theme'
 import { CustomButton } from '../components/CustomButton'
 import { WIDTH } from '../helpers/dimensions'
 import { AuthorizationStore } from '../stores/auth-store'
+import { useBLE } from '../helpers/useBLE'
+import { DevicesList } from '../components/DevicesList'
 
 export const SettingsScreen = ({ navigation }: SettingsScreenNavigationProps) => {
+  const { requestPermissions, scanForPeripherals, allDevices, setAllDevices } = useBLE()
+
+  const handleSearchButtonPress = async () => {
+    const isPermissionsEnabled = await requestPermissions()
+    if (isPermissionsEnabled) {
+      setAllDevices([])
+      scanForPeripherals()
+    }
+  }
+
   const handleLeftArrowButtonPress = () => {
     navigation.goBack()
   }
@@ -31,8 +43,15 @@ export const SettingsScreen = ({ navigation }: SettingsScreenNavigationProps) =>
       </View>
       <View>
         <CustomButton
+          textStyle={{fontSize: 15}}
           buttonStyle={styles.buttonSearchDevices}
-          buttonTitle='SEARCH DEVICES'
+          buttonTitle='SCAN FOR DEVICES'
+          handlePress={handleSearchButtonPress}
+          />
+      </View>
+      <View style={styles.deviceListContainer}>
+        <DevicesList
+          allDevices={allDevices}
           />
       </View>
     </View>
@@ -66,5 +85,9 @@ const styles = StyleSheet.create({
   },
   logoutText: {
     color: 'white'
+  },
+  deviceListContainer: {
+    flex: 1,
+    paddingVertical: 10
   }
 })
