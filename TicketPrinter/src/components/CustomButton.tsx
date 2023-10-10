@@ -5,7 +5,7 @@ interface Props {
   buttonStyle: ViewStyle
   textStyle: TextStyle
   buttonTitle: string
-  handlePress: () => void
+  handlePress: () => void | Promise<void>
 }
 
 export const CustomButton = ({ buttonStyle, textStyle, buttonTitle, handlePress }: Props) => {
