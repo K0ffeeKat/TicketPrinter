@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Text } from 'react-native'
 import React from 'react'
 
 interface Props {
@@ -10,5 +10,3 @@ export const AuthError = ({ errorMessage }: Props) => {
       <Text>{errorMessage}</Text>
   )
 }
-
-const styles = StyleSheet.create({})

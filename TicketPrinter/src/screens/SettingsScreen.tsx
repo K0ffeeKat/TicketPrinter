@@ -34,7 +34,6 @@ export const SettingsScreen = ({ navigation }: SettingsScreenNavigationProps) =>
           buttonStyle={styles.buttonLogOut}
           buttonTitle='LOG OUT'
           handlePress={handleSignOut}
-          textStyle={styles.logoutText}
           />
       <View style={styles.leftArrowButtonContainer}>
         <LeftArrowButton
@@ -43,7 +42,6 @@ export const SettingsScreen = ({ navigation }: SettingsScreenNavigationProps) =>
       </View>
       <View>
         <CustomButton
-          textStyle={{fontSize: 15}}
           buttonStyle={styles.buttonSearchDevices}
           buttonTitle='SCAN FOR DEVICES'
           handlePress={handleSearchButtonPress}

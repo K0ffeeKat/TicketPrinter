@@ -5,14 +5,12 @@ import { CustomButton } from '../components/CustomButton'
 import { theme } from '../helpers/theme'
 import { WIDTH } from '../helpers/dimensions'
 import { AuthorizationStore } from '../stores/auth-store'
-import { AuthError } from '../components/AuthError'
 
 export const LoginScreen = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { authError } = AuthorizationStore
 
-  function handleSignIn (email: string, password: string) {
+  function handleSignIn () {
     AuthorizationStore.handleLogin(email, password)
   }
 
@@ -23,20 +21,19 @@ export const LoginScreen = () => {
         isMarginNeeded={false}
         isSecured={false}
         isCapitalized={false}
-        onChangeText={(text) => { setEmail(text)}}
+        onChangeText={setEmail}
         />
       <CustomInput
         placeholderText='********'
         isMarginNeeded={true}
         isCapitalized={false}
         isSecured={true}
-        onChangeText={(text) => { setPassword(text) }}
+        onChangeText={setPassword}
         />
       <CustomButton
         buttonStyle={styles.button}
-        textStyle={styles.buttonText}
         buttonTitle='SIGN IN'
-        handlePress={() => { handleSignIn(email, password) }}
+        handlePress={handleSignIn}
         />
     </View>
   )
@@ -57,6 +54,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 20
-  },
-  buttonText: {}
+  }
 })

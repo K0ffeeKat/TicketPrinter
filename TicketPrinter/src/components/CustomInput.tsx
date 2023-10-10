@@ -1,14 +1,15 @@
 import { StyleSheet, View, TextInput } from 'react-native'
-import React from 'react'
+import React, { type SetStateAction } from 'react'
 import { WIDTH } from '../helpers/dimensions'
+import { type KeyboardType } from 'react-native/Libraries/Components/TextInput/TextInput'
 
 interface Props {
   isCapitalized: boolean
   placeholderText: string
   isMarginNeeded: boolean
   isSecured?: boolean
-  onChangeText: (text: string | number) => void
-  keyType?: string
+  onChangeText: Dispatch<SetStateAction<string | number>>
+  keyType?: KeyboardType
 }
 
 export const CustomInput = ({ placeholderText, isMarginNeeded, isSecured, onChangeText, isCapitalized, keyType }: Props) => {

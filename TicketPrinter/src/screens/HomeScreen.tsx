@@ -12,7 +12,7 @@ import { printToFileAsync } from 'expo-print'
 import { shareAsync } from 'expo-sharing'
 
 export const HomeScreen = observer(({ navigation }: HomeScreenNavigationProps) => {
-  const [userId, setUserId] = useState<number | null>(null)
+  const [userId, setUserId] = useState(null)
 
   const generatePDF = async (htmlTemplate: string) => {
     const file = await printToFileAsync({
@@ -23,10 +23,11 @@ export const HomeScreen = observer(({ navigation }: HomeScreenNavigationProps) =
     await shareAsync(file.uri)
   }
 
-  async function handleSearch () {
+  const handleSearch = async () => {
     await MainStore.handleUserInfoRequest(userId)
     if (MainStore.userInfo.length > 0 && MainStore.fetchingError === '') {
       const [{ name, surname, position, company }] = MainStore.userInfo
+
       const htmlTemplate = `
       <html>
         <head>
@@ -64,12 +65,11 @@ export const HomeScreen = observer(({ navigation }: HomeScreenNavigationProps) =
         isCapitalized={false}
         placeholderText='01928374'
         isMarginNeeded={false}
-        onChangeText={(text) => { setUserId(text) }}
+        onChangeText={setUserId}
         keyType='numeric'
         />
       <CustomButton
         buttonStyle={styles.button}
-        textStyle={styles.buttonText}
         buttonTitle='FIND ME'
         handlePress={handleSearch}
         />
@@ -93,7 +93,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 20
   },
-  buttonText: {},
   settingsButtonContainer: {
     position: 'absolute',
     right: 20,
